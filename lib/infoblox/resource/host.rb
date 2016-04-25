@@ -48,5 +48,13 @@ module Infoblox
         end
       end
     end
+
+    def allocate_next_ip(network)
+      post_body = {
+        :name      => name,
+        :ipv4addrs => [ {"ipv4addr" => "func:nextavailableip:#{network.network}"} ]
+      }
+      JSON.parse(connection.post(resource_uri + "?_return_fields=ipv4addrs", post_body).body)
+    end
   end
 end
